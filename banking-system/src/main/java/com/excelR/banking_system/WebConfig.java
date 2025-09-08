@@ -1,5 +1,6 @@
 package com.excelR.banking_system;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -12,6 +13,9 @@ public class WebConfig {
         System.out.println("🚀 WebConfig loaded");
     }
 
+    @Value("${frontend.url}")
+    private String frontendUrl;
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -19,7 +23,7 @@ public class WebConfig {
             public void addCorsMappings(CorsRegistry registry) {
 
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000")
+                        .allowedOrigins(frontendUrl)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")  // ✅ FIXED HERE
                         .allowedHeaders("*")  // ✅ Add this for good measure
                         .allowCredentials(true);
